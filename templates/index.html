@@ -11,42 +11,7 @@
         <div class="header">
             <h1>💬 Messagerie IP</h1>
             <div class="your-ip">Votre IP : <span id="yourIp">{{ user_ip }}</span></div>
-        </div>
-        
-        <div class="messages-container" id="messagesContainer">
-            <div class="no-messages">Aucun message pour le moment...</div>
-        </div>
-        
-        <div class="input-section">
-            <form id="messageForm">
-                <div class="input-group">
-                    <label for="destIp">IP de destination :</label>
-                    <input type="text" id="destIp" placeholder="Ex: 192.168.1.100" required>
-                </div>
-                <div class="input-group">
-                    <label for="message">Message :</label>
-                    <textarea id="message" placeholder="Écrivez votre message..." required></textarea>
-                </div>
-                <button type="submit">Envoyer le message</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html><!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messagerie IP</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>💬 Messagerie IP</h1>
-            <div class="your-ip">Votre IP : <span id="yourIp">{{ user_ip }}</span></div>
+            <button class="reset-btn" onclick="resetSession()">🔄 Nouvelle session</button>
         </div>
         
         <div class="messages-container" id="messagesContainer">
