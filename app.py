@@ -1,22 +1,32 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from datetime import datetime
 import socket
+import secrets
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 
 # Stockage des messages en mémoire
 messages = []
+# Compteur pour simuler différents utilisateurs
+user_counter = 0
 
 @app.route('/')
 def index():
-    user_ip = request.remote_addr
+    # Créer un identifiant unique pour chaque session
+    if 'user_id' not in session:
+        global user_counter
+        user_counter += 1
+        session['user_id'] = f"192.168.1.{100 + user_counter}"
+    
+    user_ip = session['user_id']
     return render_template('index.html', user_ip=user_ip)
 
 @app.route('/send', methods=['POST'])
 def send_message():
     try:
         data = request.json
-        from_ip = request.remote_addr
+        from_ip = session.get('user_id', 'unknown')
         to_ip = data.get('to_ip')
         content = data.get('content')
         
@@ -37,13 +47,18 @@ def send_message():
 
 @app.route('/messages')
 def get_messages():
-    user_ip = request.remote_addr
+    user_ip = session.get('user_id', 'unknown')
     # Filtrer les messages pour cet utilisateur
     user_messages = [
         msg for msg in messages 
         if msg['from_ip'] == user_ip or msg['to_ip'] == user_ip
     ]
     return jsonify({'messages': user_messages})
+
+@app.route('/reset')
+def reset_session():
+    session.clear()
+    return jsonify({'success': True})
 
 if __name__ == '__main__':
     hostname = socket.gethostname()
