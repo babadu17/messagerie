@@ -1,4 +1,15 @@
- const yourIp = document.getElementById('yourIp').textContent;
+const yourIp = document.getElementById('yourIp').textContent;
+
+// Réinitialiser la session
+function resetSession() {
+    if (confirm('Voulez-vous créer une nouvelle session avec une nouvelle IP ?')) {
+        fetch('/reset')
+            .then(res => res.json())
+            .then(() => {
+                window.location.reload();
+            });
+    }
+}
 
 // Charger les messages
 function loadMessages() {
