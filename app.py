@@ -17,7 +17,7 @@ def index():
     if 'user_id' not in session:
         global user_counter
         user_counter += 1
-        session['user_id'] = f"192.168.1.{100 + user_counter}"
+        session['user_id'] = f"{00 + user_counter}"
     
     user_ip = session['user_id']
     return render_template('index.html', user_ip=user_ip)
